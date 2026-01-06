@@ -1,9 +1,7 @@
-import {ClerkProvider} from "@clerk/nextjs";
-import {dark} from "@clerk/themes";
 import type {Metadata} from "next";
 import {IBM_Plex_Mono, Inter} from "next/font/google";
 import type {ReactNode} from "react";
-import {ThemeProvider} from "@/components/providers";
+import {Providers} from "@/components/providers";
 import {Toaster} from "@/components/ui";
 
 import "./globals.css";
@@ -32,22 +30,10 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.variable} ${plexMono.variable} antialiased`}>
-        <ClerkProvider
-          appearance={{
-            baseTheme: dark,
-          }}
-        >
-          <ThemeProvider
-            attribute={"class"}
-            defaultTheme={"dark"}
-            enableSystem
-            disableTransitionOnChange
-          >
-            {children}
-
-            <Toaster />
-          </ThemeProvider>
-        </ClerkProvider>
+        <Providers>
+          {children}
+          <Toaster />
+        </Providers>
       </body>
     </html>
   );
