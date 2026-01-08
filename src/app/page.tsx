@@ -1,3 +1,5 @@
-export default function Home() {
-  return <div>Home</div>;
+import {ProjectsView} from "@/features/projects";
+
+export default function ProjectsPage() {
+  return <ProjectsView />;
 }
