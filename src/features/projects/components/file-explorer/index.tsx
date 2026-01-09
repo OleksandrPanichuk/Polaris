@@ -18,6 +18,7 @@ import {
 import { useState } from "react";
 import { CreateInput } from "./create-input";
 import { LoadingRow } from "./loading-row";
+import { Tree } from "./tree";
 
 interface IFileExplorerProps {
   projectId: Id<"projects">;
