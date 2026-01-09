@@ -25,7 +25,9 @@
         "useButtonType": "off",
         "noAutofocus": "off",
         "noStaticElementInteractions": "off",
-        "useKeyWithClickEvents": "off"
+        "useKeyWithClickEvents": "off",
+        "useFocusableInteractive": "off",
+        "useSemanticElements": "off"
       }
     },
     "domains": {
