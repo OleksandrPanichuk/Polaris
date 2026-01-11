@@ -1,11 +1,12 @@
 "use client";
 
-import { cn } from "@/lib/utils";
-import type { Id } from "@convex/dataModel";
-import { Allotment } from "allotment";
-import { useState } from "react";
-import { FaGithub } from "react-icons/fa";
-import { FileExplorer } from "./file-explorer";
+import type {Id} from "@convex/dataModel";
+import {Allotment} from "allotment";
+import {useState} from "react";
+import {FaGithub} from "react-icons/fa";
+import {EditorView} from "@/features/editor/components";
+import {cn} from "@/lib/utils";
+import {FileExplorer} from "./file-explorer";
 
 interface IProjectIdViewProps {
   projectId: Id<"projects">;
@@ -77,7 +78,7 @@ export const ProjectIdView = ({ projectId }: IProjectIdViewProps) => {
               <FileExplorer projectId={projectId} />
             </Allotment.Pane>
             <Allotment.Pane>
-              Editor
+              <EditorView projectId={projectId} />
             </Allotment.Pane>
           </Allotment>
         </div>

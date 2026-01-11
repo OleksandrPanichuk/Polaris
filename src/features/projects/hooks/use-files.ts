@@ -1,6 +1,7 @@
-import { api } from "@convex/api";
-import type { Id } from "@convex/dataModel";
-import { useMutation, useQuery } from "convex/react";
+"use client";
+import {api} from "@convex/api";
+import type {Id} from "@convex/dataModel";
+import {useMutation, useQuery} from "convex/react";
 
 export const useFile = (fileId: Id<"files"> | null) => {
   return useQuery(api.files.getFile, fileId ? { id: fileId } : "skip");
