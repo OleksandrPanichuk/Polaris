@@ -1,20 +1,15 @@
-import {
-  useCreateFile,
-  useCreateFolder,
-  useDeleteFile,
-  useFolderContents,
-  useRenameFile,
-} from "@/features/projects";
-import { cn } from "@/lib/utils";
-import type { Doc, Id } from "@convex/dataModel";
-import { FileIcon, FolderIcon } from "@react-symbols/icons/utils";
-import { ChevronRightIcon } from "lucide-react";
-import { useState } from "react";
-import { getItemPadding } from "./constants";
-import { CreateInput } from "./create-input";
-import { LoadingRow } from "./loading-row";
-import { RenameInput } from "./rename-input";
-import { TreeItemWrapper } from "./tree-item-wrapper";
+import type {Doc, Id} from "@convex/dataModel";
+import {FileIcon, FolderIcon} from "@react-symbols/icons/utils";
+import {ChevronRightIcon} from "lucide-react";
+import {useState} from "react";
+import {useEditor} from "@/features/editor";
+import {useCreateFile, useCreateFolder, useDeleteFile, useFolderContents, useRenameFile,} from "@/features/projects";
+import {cn} from "@/lib/utils";
+import {getItemPadding} from "./constants";
+import {CreateInput} from "./create-input";
+import {LoadingRow} from "./loading-row";
+import {RenameInput} from "./rename-input";
+import {TreeItemWrapper} from "./tree-item-wrapper";
 
 interface ITreeProps {
   item: Doc<"files">;
@@ -31,6 +26,8 @@ export const Tree = ({ item, level = 0, projectId }: ITreeProps) => {
   const createFile = useCreateFile();
   const createFolder = useCreateFolder();
   const deleteFile = useDeleteFile();
+
+  const { openFile, closeTab, activeTabId } = useEditor(projectId);
 
   const folderContents = useFolderContents({
     projectId,
@@ -74,7 +71,7 @@ export const Tree = ({ item, level = 0, projectId }: ITreeProps) => {
 
   if (item.type === "file") {
     const fileName = item.name;
-    const isActive = false; // TODO: determine if this file is the active file
+    const isActive = activeTabId === item._id;
 
     if (isRenaming) {
       return (
@@ -93,10 +90,11 @@ export const Tree = ({ item, level = 0, projectId }: ITreeProps) => {
         item={item}
         level={level}
         isActive={isActive}
-        onClick={() => {}}
-        onDoubleClick={() => {}}
+        onClick={() => openFile(item._id, { pinned: false })}
+        onDoubleClick={() => openFile(item._id, { pinned: true })}
         onRename={() => setIsRenaming(true)}
         onDelete={() => {
+          closeTab(item._id);
           deleteFile({ id: item._id });
         }}
       >

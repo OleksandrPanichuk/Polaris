@@ -4,6 +4,7 @@ import type {ReactNode} from "react";
 import {Providers} from "@/components/providers";
 import {Toaster} from "@/components/ui";
 
+import "allotment/dist/style.css";
 import "./globals.css";
 
 const inter = Inter({

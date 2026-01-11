@@ -1,31 +1,21 @@
 "use client";
 
-import { Button, ScrollArea } from "@/components/ui";
-import {
-  useCreateFile,
-  useCreateFolder,
-  useFolderContents,
-  useProject,
-} from "@/features/projects";
-import { cn } from "@/lib/utils";
-import type { Id } from "@convex/dataModel";
-import {
-  ChevronRightIcon,
-  CopyMinusIcon,
-  FilePlusCornerIcon,
-  FolderPlusIcon,
-} from "lucide-react";
-import { useState } from "react";
-import { CreateInput } from "./create-input";
-import { LoadingRow } from "./loading-row";
-import { Tree } from "./tree";
+import type {Id} from "@convex/dataModel";
+import {ChevronRightIcon, CopyMinusIcon, FilePlusCornerIcon, FolderPlusIcon,} from "lucide-react";
+import {useState} from "react";
+import {Button, ScrollArea} from "@/components/ui";
+import {useCreateFile, useCreateFolder, useFolderContents, useProject,} from "@/features/projects";
+import {cn} from "@/lib/utils";
+import {CreateInput} from "./create-input";
+import {LoadingRow} from "./loading-row";
+import {Tree} from "./tree";
 
 interface IFileExplorerProps {
   projectId: Id<"projects">;
 }
 
 export const FileExplorer = ({ projectId }: IFileExplorerProps) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
   const [collapseKey, setCollapseKey] = useState(0);
   const [creating, setCreating] = useState<"file" | "folder" | null>(null);
 
