@@ -3,7 +3,15 @@ import {oneDark} from "@codemirror/theme-one-dark";
 import {EditorView, keymap} from "@codemirror/view";
 import {indentationMarkers} from "@replit/codemirror-indentation-markers";
 import {useEffect, useMemo, useRef} from "react";
-import {customSetup, customTheme, getLanguageExtension, minimap} from "@/features/editor/extensions";
+import {
+  customSetup,
+  customTheme,
+  getLanguageExtension,
+  minimap,
+  quickEdit,
+  selectionTooltip,
+  suggestion
+} from "@/features/editor/extensions";
 
 interface ICodeEditorProps {
   fileName: string;
@@ -35,6 +43,9 @@ export const CodeEditor = ({
         customTheme,
         customSetup,
         languageExtension,
+        suggestion(fileName),
+        quickEdit(fileName),
+        selectionTooltip(),
         keymap.of([indentWithTab]),
         minimap(),
         indentationMarkers(),
