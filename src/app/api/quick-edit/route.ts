@@ -46,7 +46,7 @@ export async function POST(request: Request) {
     const { selectedCode, fullCode, instruction } = await request.json();
 
     if (!userId) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 400 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     if (!selectedCode) {
