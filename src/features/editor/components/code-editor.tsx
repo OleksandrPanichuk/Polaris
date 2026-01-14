@@ -31,7 +31,7 @@ export const CodeEditor = ({
     return getLanguageExtension(fileName);
   }, [fileName]);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: initialValue is only used for initial documennt
+  // biome-ignore lint/correctness/useExhaustiveDependencies: initialValue is only used for initial document
   useEffect(() => {
     if (!editorRef.current) return;
 
