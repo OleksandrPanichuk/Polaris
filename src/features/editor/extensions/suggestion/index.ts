@@ -7,6 +7,11 @@ let isWaitingForSuggestion = false;
 const DEBOUNCE_DELAY = 300;
 let currentAbortController: AbortController | null = null;
 
+// Rate limiting for Gemini API (6 suggestions per minute)
+const RATE_LIMIT_MAX = 6;
+const RATE_LIMIT_WINDOW = 60 * 1000; // 1 minute in milliseconds
+let suggestionTimestamps: number[] = [];
+
 // Suggestion State
 
 const setSuggestionEffect = StateEffect.define<string | null>();
@@ -114,6 +119,18 @@ const acceptSuggestionKeymap = keymap.of([
 
 // Suggestion generation
 
+const isRateLimitExceeded = (): boolean => {
+  const now = Date.now();
+  suggestionTimestamps = suggestionTimestamps.filter(
+    (timestamp) => now - timestamp < RATE_LIMIT_WINDOW,
+  );
+  return suggestionTimestamps.length >= RATE_LIMIT_MAX;
+};
+
+const recordSuggestionRequest = (): void => {
+  suggestionTimestamps.push(Date.now());
+};
+
 const generatePayload = (view: EditorView, fileName: string) => {
   const code = view.state.doc.toString();
 
@@ -170,15 +187,32 @@ const createDebouncedPlugin = (fileName: string) => {
           currentAbortController.abort();
         }
 
+        // Check rate limit before setting waiting state
+        if (isRateLimitExceeded()) {
+          // Don't trigger suggestion if rate limit exceeded
+          view.dispatch({ effects: setSuggestionEffect.of(null) });
+          return;
+        }
+
         isWaitingForSuggestion = true;
 
         debounceTimer = window.setTimeout(async () => {
+          // Double-check rate limit right before making the request
+          if (isRateLimitExceeded()) {
+            isWaitingForSuggestion = false;
+            view.dispatch({ effects: setSuggestionEffect.of(null) });
+            return;
+          }
+
           const payload = generatePayload(view, fileName);
           if (!payload) {
             isWaitingForSuggestion = false;
             view.dispatch({ effects: setSuggestionEffect.of(null) });
             return;
           }
+
+          // Record this suggestion request
+          recordSuggestionRequest();
 
           currentAbortController = new AbortController();
           const suggestion = await fetcher(
