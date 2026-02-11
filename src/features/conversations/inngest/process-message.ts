@@ -1,19 +1,22 @@
-import {api} from "@convex/api";
-import type {Id} from "@convex/dataModel";
-import {createAgent, createNetwork, gemini} from "@inngest/agent-kit";
-import {NonRetriableError} from "inngest";
-import {CODING_AGENT_SYSTEM_PROMPT, TITLE_GENERATOR_SYSTEM_PROMPT,} from "@/features/conversations/inngest/constants";
-import {createCreateFilesTool} from "@/features/conversations/inngest/tools/create-files";
-import {createCreateFolderTool} from "@/features/conversations/inngest/tools/create-folder";
-import {createDeleteFilesTool} from "@/features/conversations/inngest/tools/delete-files";
-import {createListFilesTool} from "@/features/conversations/inngest/tools/list-files";
-import {createReadFilesTool} from "@/features/conversations/inngest/tools/read-files";
-import {createRenameFileTool} from "@/features/conversations/inngest/tools/rename-file";
-import {createScrapeUrlsTool} from "@/features/conversations/inngest/tools/scrape-urls";
-import {createUpdateFileTool} from "@/features/conversations/inngest/tools/update-file";
-import {inngest} from "@/inngest/client";
-import {convex} from "@/lib/convex-client";
-import {DEFAULT_CONVERSATION_TITLE} from "../../../../convex/constants";
+import { api } from "@convex/api";
+import type { Id } from "@convex/dataModel";
+import { createAgent, createNetwork, gemini } from "@inngest/agent-kit";
+import { NonRetriableError } from "inngest";
+import {
+  CODING_AGENT_SYSTEM_PROMPT,
+  TITLE_GENERATOR_SYSTEM_PROMPT,
+} from "@/features/conversations/inngest/constants";
+import { createCreateFilesTool } from "@/features/conversations/inngest/tools/create-files";
+import { createCreateFolderTool } from "@/features/conversations/inngest/tools/create-folder";
+import { createDeleteFilesTool } from "@/features/conversations/inngest/tools/delete-files";
+import { createListFilesTool } from "@/features/conversations/inngest/tools/list-files";
+import { createReadFilesTool } from "@/features/conversations/inngest/tools/read-files";
+import { createRenameFileTool } from "@/features/conversations/inngest/tools/rename-file";
+import { createScrapeUrlsTool } from "@/features/conversations/inngest/tools/scrape-urls";
+import { createUpdateFileTool } from "@/features/conversations/inngest/tools/update-file";
+import { inngest } from "@/inngest/client";
+import { convex } from "@/lib/convex-client";
+import { DEFAULT_CONVERSATION_TITLE } from "../../../../convex/constants";
 
 interface MessageEvent {
   messageId: Id<"messages">;
@@ -105,6 +108,7 @@ export const processMessage = inngest.createFunction(
         name: "title-agent",
         system: TITLE_GENERATOR_SYSTEM_PROMPT,
         model: gemini({
+          apiKey: process.env.GOOGLE_GENERATIVE_AI_API_KEY,
           model: "gemini-2.5-flash",
           defaultParameters: {
             generationConfig: {
@@ -147,7 +151,8 @@ export const processMessage = inngest.createFunction(
       description: "An expert AI coding assistant",
       system: systemPrompt,
       model: gemini({
-        model: "gemini-3.0-flash",
+        apiKey: process.env.GOOGLE_GENERATIVE_AI_API_KEY,
+        model: "gemini-2.5-flash",
         defaultParameters: {
           generationConfig: {
             temperature: 0.3,

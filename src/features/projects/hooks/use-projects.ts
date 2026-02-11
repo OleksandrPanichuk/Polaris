@@ -1,7 +1,7 @@
 "use client";
-import {api} from "@convex/api";
-import type {Id} from "@convex/dataModel";
-import {useMutation, useQuery} from "convex/react";
+import { api } from "@convex/api";
+import type { Id } from "@convex/dataModel";
+import { useMutation, useQuery } from "convex/react";
 
 export const useProject = (projectId: Id<"projects">) => {
   return useQuery(api.projects.getById, { id: projectId });
@@ -75,4 +75,8 @@ export const useRenameProject = () => {
       }
     },
   );
+};
+
+export const useUpdateProjectSettings = () => {
+  return useMutation(api.projects.updateSettings);
 };

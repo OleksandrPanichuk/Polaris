@@ -21,6 +21,9 @@
       "suspicious": {
         "noUnknownAtRules": "off"
       },
+      "correctness": {
+        "useExhaustiveDependencies": "warn"
+      },
       "a11y": {
         "useButtonType": "off",
         "noAutofocus": "off",
