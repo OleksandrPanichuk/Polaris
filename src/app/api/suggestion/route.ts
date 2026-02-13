@@ -1,8 +1,8 @@
-import {google} from "@ai-sdk/google";
-import {auth} from "@clerk/nextjs/server";
-import {generateText, Output} from "ai";
-import {NextResponse} from "next/dist/server/web/spec-extension/response";
-import {z} from "zod";
+import { google } from "@ai-sdk/google";
+import { auth } from "@clerk/nextjs/server";
+import { generateText, Output } from "ai";
+import { NextResponse } from "next/dist/server/web/spec-extension/response";
+import { z } from "zod";
 
 const suggestionSchema = z.object({
   suggestion: z
@@ -75,7 +75,7 @@ export async function POST(request: Request) {
       .replace("{lineNumber}", lineNumber.toString());
 
     const { output } = await generateText({
-      model: google("gemini-2.0-flash"),
+      model: google("gemini-2.5-flash"),
       output: Output.object({ schema: suggestionSchema }),
       prompt,
     });

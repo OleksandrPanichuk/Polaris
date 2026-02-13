@@ -1,15 +1,21 @@
-import type {Doc, Id} from "@convex/dataModel";
-import {FileIcon, FolderIcon} from "@react-symbols/icons/utils";
-import {ChevronRightIcon} from "lucide-react";
-import {useState} from "react";
-import {useEditor} from "@/features/editor";
-import {useCreateFile, useCreateFolder, useDeleteFile, useFolderContents, useRenameFile,} from "@/features/projects";
-import {cn} from "@/lib/utils";
-import {getItemPadding} from "./constants";
-import {CreateInput} from "./create-input";
-import {LoadingRow} from "./loading-row";
-import {RenameInput} from "./rename-input";
-import {TreeItemWrapper} from "./tree-item-wrapper";
+import type { Doc, Id } from "@convex/dataModel";
+import { FileIcon, FolderIcon } from "@react-symbols/icons/utils";
+import { ChevronRightIcon } from "lucide-react";
+import { useState } from "react";
+import { useEditor } from "@/features/editor";
+import {
+  useCreateFile,
+  useCreateFolder,
+  useDeleteFile,
+  useFolderContents,
+  useRenameFile,
+} from "@/features/projects";
+import { cn } from "@/lib/utils";
+import { getItemPadding } from "./constants";
+import { CreateInput } from "./create-input";
+import { LoadingRow } from "./loading-row";
+import { RenameInput } from "./rename-input";
+import { TreeItemWrapper } from "./tree-item-wrapper";
 
 interface ITreeProps {
   item: Doc<"files">;
@@ -22,10 +28,16 @@ export const Tree = ({ item, level = 0, projectId }: ITreeProps) => {
   const [isRenaming, setIsRenaming] = useState(false);
   const [creating, setCreating] = useState<"file" | "folder" | null>(null);
 
-  const renameFile = useRenameFile();
   const createFile = useCreateFile();
   const createFolder = useCreateFolder();
-  const deleteFile = useDeleteFile();
+  const renameFile = useRenameFile({
+    projectId,
+    parentId: item.parentId,
+  });
+  const deleteFile = useDeleteFile({
+    projectId,
+    parentId: item.parentId,
+  });
 
   const { openFile, closeTab, activeTabId } = useEditor(projectId);
 

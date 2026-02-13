@@ -1,12 +1,13 @@
 "use client";
 
-import type {Id} from "@convex/dataModel";
-import {Allotment} from "allotment";
-import {useState} from "react";
-import {FaGithub} from "react-icons/fa";
-import {EditorView} from "@/features/editor/components";
-import {cn} from "@/lib/utils";
-import {FileExplorer} from "./file-explorer";
+import type { Id } from "@convex/dataModel";
+import { Allotment } from "allotment";
+import { useState } from "react";
+import { FaGithub } from "react-icons/fa";
+import { EditorView } from "@/features/editor/components";
+import { cn } from "@/lib/utils";
+import { FileExplorer } from "./file-explorer";
+import { PreviewView } from "./preview-view";
 
 interface IProjectIdViewProps {
   projectId: Id<"projects">;
@@ -88,7 +89,7 @@ export const ProjectIdView = ({ projectId }: IProjectIdViewProps) => {
             activeView === "preview" ? "visible" : "invisible",
           )}
         >
-          <div>Preview</div>
+          <PreviewView projectId={projectId} />
         </div>
       </div>
     </div>
