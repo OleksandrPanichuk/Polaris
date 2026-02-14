@@ -1,4 +1,6 @@
 export * from "./continue-card";
+export * from "./export-popover";
+export * from "./import-github-dialog";
 export * from "./navbar";
 export * from "./project-id-layout";
 export * from "./project-id-view";
