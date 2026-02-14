@@ -6,7 +6,7 @@ import {useEffect, useState} from "react";
 import {FaGithub} from "react-icons/fa";
 import {adjectives, animals, colors, uniqueNamesGenerator,} from "unique-names-generator";
 import {Button, Kbd} from "@/components/ui";
-import {ProjectsCommandDialog, ProjectsList, useCreateProject} from "@/features/projects";
+import {ImportGithubDialog, ProjectsCommandDialog, ProjectsList, useCreateProject} from "@/features/projects";
 import {cn} from "@/lib/utils";
 
 const font = Poppins({
@@ -16,6 +16,7 @@ const font = Poppins({
 
 export const ProjectsView = () => {
   const [commandDialogOpen, setCommandDialogOpen] = useState(false);
+  const [importDialogOpen, setImportDialogOpen] = useState(false);
 
   const createProject = useCreateProject();
 
@@ -38,6 +39,11 @@ export const ProjectsView = () => {
           e.preventDefault();
           setCommandDialogOpen(true);
         }
+
+        if (e.key === "i") {
+          e.preventDefault();
+          setImportDialogOpen(true);
+        }
       }
     };
 
@@ -47,6 +53,10 @@ export const ProjectsView = () => {
 
   return (
     <>
+      <ImportGithubDialog
+        open={importDialogOpen}
+        onOpenChange={setImportDialogOpen}
+      />
       <ProjectsCommandDialog
         open={commandDialogOpen}
         onOpenChange={setCommandDialogOpen}
@@ -94,7 +104,7 @@ export const ProjectsView = () => {
               </Button>
               <Button
                 variant="outline"
-                onClick={() => {}}
+                onClick={() => setImportDialogOpen(true)}
                 className="h-full items-start justify-start p-4 bg-background border flex flex-col gap-6 rounded-none"
               >
                 <div className="flex items-center justify-between w-full">

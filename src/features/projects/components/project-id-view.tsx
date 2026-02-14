@@ -1,13 +1,13 @@
 "use client";
 
-import type { Id } from "@convex/dataModel";
-import { Allotment } from "allotment";
-import { useState } from "react";
-import { FaGithub } from "react-icons/fa";
-import { EditorView } from "@/features/editor/components";
-import { cn } from "@/lib/utils";
-import { FileExplorer } from "./file-explorer";
-import { PreviewView } from "./preview-view";
+import type {Id} from "@convex/dataModel";
+import {Allotment} from "allotment";
+import {useState} from "react";
+import {EditorView} from "@/features/editor/components";
+import {ExportPopover} from "@/features/projects";
+import {cn} from "@/lib/utils";
+import {FileExplorer} from "./file-explorer";
+import {PreviewView} from "./preview-view";
 
 interface IProjectIdViewProps {
   projectId: Id<"projects">;
@@ -56,10 +56,7 @@ export const ProjectIdView = ({ projectId }: IProjectIdViewProps) => {
           onClick={() => setActiveView("preview")}
         />
         <div className="flex-1 flex justify-end h-full">
-          <div className="flex items-center gap-1.5 h-full px-3 cursor-pointer text-muted-foreground border-l hover:bg-accent/30">
-            <FaGithub className="size-3.5" />
-            <span className="text-sm">Export</span>
-          </div>
+          <ExportPopover projectId={projectId} />
         </div>
       </nav>
       <div className="flex-1 relative">
