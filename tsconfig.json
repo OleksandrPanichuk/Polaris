@@ -20,7 +20,8 @@
     ],
     "paths": {
       "@/*": ["./src/*"],
-      "@convex/*": ["./convex/_generated/*"]
+      "@convex/*": ["./convex/_generated/*"],
+      "@convex/constants": ["./convex/constants"],
     }
   },
   "include": [
