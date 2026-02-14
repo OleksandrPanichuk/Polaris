@@ -1,15 +1,9 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
-import { LoaderIcon, MicIcon, SquareIcon } from "lucide-react";
-import {
-  type ComponentProps,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import {LoaderIcon, MicIcon, SquareIcon} from "lucide-react";
+import {type ComponentProps, useCallback, useEffect, useRef, useState,} from "react";
+import {Button} from "@/components/ui/button";
+import {cn} from "@/lib/utils";
 
 interface SpeechRecognition extends EventTarget {
   continuous: boolean;
@@ -55,7 +49,6 @@ interface SpeechRecognitionErrorEvent extends Event {
 }
 
 declare global {
-  // biome-ignore lint/style/useConsistentTypeDefinitions: We need to declare the SpeechRecognition interface
   interface Window {
     SpeechRecognition: {
       new (): SpeechRecognition;
@@ -107,7 +100,7 @@ export const SpeechInput = ({
   const [isProcessing, setIsProcessing] = useState(false);
   const [mode, setMode] = useState<SpeechInputMode>("none");
   const [recognition, setRecognition] = useState<SpeechRecognition | null>(
-    null
+    null,
   );
   const recognitionRef = useRef<SpeechRecognition | null>(null);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
@@ -174,7 +167,7 @@ export const SpeechInput = ({
   const startMediaRecorder = useCallback(async () => {
     if (!onAudioRecorded) {
       console.warn(
-        "SpeechInput: onAudioRecorded callback is required for MediaRecorder fallback"
+        "SpeechInput: onAudioRecorded callback is required for MediaRecorder fallback",
       );
       return;
     }
@@ -255,13 +248,7 @@ export const SpeechInput = ({
         startMediaRecorder();
       }
     }
-  }, [
-    mode,
-    recognition,
-    isListening,
-    startMediaRecorder,
-    stopMediaRecorder,
-  ]);
+  }, [mode, recognition, isListening, startMediaRecorder, stopMediaRecorder]);
 
   // Determine if button should be disabled
   const isDisabled =
@@ -292,7 +279,7 @@ export const SpeechInput = ({
           isListening
             ? "bg-destructive text-white hover:bg-destructive/80 hover:text-white"
             : "bg-primary text-primary-foreground hover:bg-primary/80 hover:text-primary-foreground",
-          className
+          className,
         )}
         disabled={isDisabled}
         onClick={toggleListening}

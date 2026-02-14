@@ -4,9 +4,8 @@ import {SparkleIcon} from "lucide-react";
 import {Poppins} from "next/font/google";
 import {useEffect, useState} from "react";
 import {FaGithub} from "react-icons/fa";
-import {adjectives, animals, colors, uniqueNamesGenerator,} from "unique-names-generator";
 import {Button, Kbd} from "@/components/ui";
-import {ImportGithubDialog, ProjectsCommandDialog, ProjectsList, useCreateProject} from "@/features/projects";
+import {ImportGithubDialog, NewProjectDialog, ProjectsCommandDialog, ProjectsList} from "@/features/projects";
 import {cn} from "@/lib/utils";
 
 const font = Poppins({
@@ -17,20 +16,7 @@ const font = Poppins({
 export const ProjectsView = () => {
   const [commandDialogOpen, setCommandDialogOpen] = useState(false);
   const [importDialogOpen, setImportDialogOpen] = useState(false);
-
-  const createProject = useCreateProject();
-
-  const handleCreateProject = () => {
-    const projectName = uniqueNamesGenerator({
-      dictionaries: [adjectives, animals, colors],
-      separator: "-",
-      length: 3,
-    });
-
-    createProject({
-      name: projectName,
-    });
-  };
+  const [newProjectDialogOpen, setNewProjectDialogOpen] = useState(false);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -43,6 +29,11 @@ export const ProjectsView = () => {
         if (e.key === "i") {
           e.preventDefault();
           setImportDialogOpen(true);
+        }
+
+        if (e.key === "j") {
+          e.preventDefault();
+          setNewProjectDialogOpen(true);
         }
       }
     };
@@ -60,6 +51,10 @@ export const ProjectsView = () => {
       <ProjectsCommandDialog
         open={commandDialogOpen}
         onOpenChange={setCommandDialogOpen}
+      />
+      <NewProjectDialog
+        open={newProjectDialogOpen}
+        onOpenChange={setNewProjectDialogOpen}
       />
       <div
         className={
@@ -91,8 +86,8 @@ export const ProjectsView = () => {
             <div className="grid grid-cols-2 gap-2">
               <Button
                 variant="outline"
+                onClick={() => setNewProjectDialogOpen(true)}
                 className="h-full items-start justify-start p-4 bg-background border flex flex-col gap-6 rounded-none"
-                onClick={handleCreateProject}
               >
                 <div className="flex items-center justify-between w-full">
                   <SparkleIcon className="size-4" />
