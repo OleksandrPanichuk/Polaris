@@ -78,7 +78,7 @@ export const ExportPopover = ({ projectId }: IExportPopoverProps) => {
           const body = await error.response.json<{ error: string }>();
 
           if (body.error?.includes("Pro plan required")) {
-            toast.error("Upgrade to import repositories", {
+            toast.error("Upgrade to export", {
               action: {
                 label: "Upgrade",
                 onClick: () => openUserProfile(),
